@@ -5,11 +5,7 @@ import { createHubSpotClient } from "@/lib/hubspot/contacts";
 import { getContactProperties } from "@/lib/hubspot/properties";
 import { logger } from "@/lib/logger";
 
-/**
- * GET /api/fields/hubspot?instanceId=xxx
- * Returns the list of writable HubSpot contact properties.
- * Fetched dynamically from HubSpot's Properties API.
- */
+/* GET /api/fields/hubspot?instanceId=xxx -- Returns the list of writable HubSpot contact properties. Fetched dynamically from HubSpot's Properties API. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");

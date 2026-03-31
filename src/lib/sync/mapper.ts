@@ -7,9 +7,7 @@ interface MappingRule {
   transform: TransformType;
 }
 
-/**
- * Applies a transform to a string value.
- */
+/* Applies a transform to a string value. */
 function applyTransform(value: string, transform: TransformType): string {
   if (!value || !transform) return value;
   switch (transform) {
@@ -24,14 +22,7 @@ function applyTransform(value: string, transform: TransformType): string {
   }
 }
 
-/**
- * Extracts a value from a Wix contact using a dot-path.
- *
- * Supports:
- * - Simple paths: "info.company" → contact.info.company
- * - Nested paths: "info.name.first" → contact.info.name.first
- * - Array paths: "info.emails.0.email" → contact.info.emails[0].email
- */
+/* Extracts a value from a Wix contact using a dot-path. Supports simple paths, nested paths, and array paths. */
 export function getValueFromWixContact(contact: WixContact, path: string): string | undefined {
   const parts = path.split(".");
 
@@ -59,13 +50,7 @@ export function getValueFromWixContact(contact: WixContact, path: string): strin
   return current !== null && current !== undefined ? String(current) : undefined;
 }
 
-/**
- * Sets a value in a partial Wix contact info object using a dot-path.
- *
- * Builds the nested structure as needed:
- * - "info.name.first" → { name: { first: value } }
- * - "info.emails.0.email" → { emails: [{ email: value }] }
- */
+/* Sets a value in a partial Wix contact info object using a dot-path. Builds the nested structure as needed. */
 export function setValueInWixInfo(
   info: Partial<WixContactInfo>,
   path: string,
@@ -111,10 +96,7 @@ export function setValueInWixInfo(
   }
 }
 
-/**
- * Maps Wix contact fields to HubSpot properties using the configured field mappings.
- * Only includes mappings with direction "wix_to_hubspot" or "bidirectional".
- */
+/* Maps Wix contact fields to HubSpot properties using the configured field mappings. Only includes mappings with direction wix_to_hubspot or bidirectional. */
 export function mapWixToHubSpot(
   contact: WixContact,
   mappings: MappingRule[]
@@ -135,10 +117,7 @@ export function mapWixToHubSpot(
   return result;
 }
 
-/**
- * Maps HubSpot properties to a partial Wix contact info object.
- * Only includes mappings with direction "hubspot_to_wix" or "bidirectional".
- */
+/* Maps HubSpot properties to a partial Wix contact info object. Only includes mappings with direction hubspot_to_wix or bidirectional. */
 export function mapHubSpotToWix(
   hubspotProperties: HubSpotContactProperties,
   mappings: MappingRule[]
@@ -160,10 +139,7 @@ export function mapHubSpotToWix(
   return info;
 }
 
-/**
- * Extracts the mapped HubSpot property names from a set of mappings.
- * Used to know which properties to request when fetching HubSpot contacts.
- */
+/* Extracts the mapped HubSpot property names from a set of mappings. Used to know which properties to request when fetching HubSpot contacts. */
 export function getMappedHubSpotProperties(mappings: MappingRule[]): string[] {
   return [...new Set(mappings.map((m) => m.hubspotProperty))];
 }

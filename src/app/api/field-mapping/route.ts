@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { logger } from "@/lib/logger";
 
-/**
- * GET /api/field-mapping?instanceId=xxx
- * Returns all field mappings for a Wix connection.
- */
+/* GET /api/field-mapping?instanceId=xxx -- Returns all field mappings for a Wix connection. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");
@@ -33,10 +30,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-/**
- * POST /api/field-mapping
- * Creates a new field mapping.
- */
+/* POST /api/field-mapping -- Creates a new field mapping. */
 export async function POST(request: NextRequest) {
   try {
     const { instanceId, wixField, hubspotProperty, direction, transform } = await request.json();
@@ -97,10 +91,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/**
- * PUT /api/field-mapping
- * Updates an existing field mapping.
- */
+/* PUT /api/field-mapping -- Updates an existing field mapping. */
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
@@ -127,10 +118,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-/**
- * DELETE /api/field-mapping
- * Deletes a field mapping.
- */
+/* DELETE /api/field-mapping -- Deletes a field mapping. */
 export async function DELETE(request: NextRequest) {
   try {
     // Support both body JSON and query param

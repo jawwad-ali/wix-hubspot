@@ -5,11 +5,7 @@ import { logger } from "@/lib/logger";
 
 const HUBSPOT_OAUTH_BASE = "https://api.hubapi.com/oauth/v1";
 
-/**
- * Constructs the HubSpot OAuth authorization URL.
- * The `state` parameter carries the encrypted Wix instanceId
- * to link the HubSpot connection back to the correct Wix site.
- */
+/* Constructs the HubSpot OAuth authorization URL. The state parameter carries the encrypted Wix instanceId to link the HubSpot connection back to the correct Wix site. */
 export function getHubSpotAuthUrl(wixInstanceId: string): string {
   const clientId = process.env.HUBSPOT_CLIENT_ID;
   const scopes = process.env.HUBSPOT_SCOPES || "crm.objects.contacts.read crm.objects.contacts.write";
@@ -30,10 +26,7 @@ export function getHubSpotAuthUrl(wixInstanceId: string): string {
   return `https://app.hubspot.com/oauth/authorize?${params.toString()}`;
 }
 
-/**
- * Exchanges an authorization code for access + refresh tokens.
- * HubSpot requires application/x-www-form-urlencoded content type.
- */
+/* Exchanges an authorization code for access + refresh tokens. HubSpot requires application/x-www-form-urlencoded content type. */
 export async function exchangeCodeForTokens(code: string): Promise<{
   accessToken: string;
   refreshToken: string;
@@ -70,10 +63,7 @@ export async function exchangeCodeForTokens(code: string): Promise<{
   };
 }
 
-/**
- * Uses the refresh token to obtain a new access token.
- * HubSpot does NOT return a new refresh token — the original persists forever.
- */
+/* Uses the refresh token to obtain a new access token. HubSpot does NOT return a new refresh token -- the original persists forever. */
 export async function refreshAccessToken(encryptedRefreshToken: string): Promise<{
   accessToken: string;
   expiresIn: number;
@@ -108,9 +98,7 @@ export async function refreshAccessToken(encryptedRefreshToken: string): Promise
   };
 }
 
-/**
- * Retrieves the HubSpot portal ID from an access token.
- */
+/* Retrieves the HubSpot portal ID from an access token. */
 export async function getPortalId(accessToken: string): Promise<string> {
   const response = await axios.get(
     `${HUBSPOT_OAUTH_BASE}/access-tokens/${accessToken}`
@@ -118,10 +106,7 @@ export async function getPortalId(accessToken: string): Promise<string> {
   return response.data.hub_id.toString();
 }
 
-/**
- * Gets a valid (non-expired) HubSpot access token for a Wix connection.
- * Automatically refreshes if the token is within 5 minutes of expiry.
- */
+/* Gets a valid (non-expired) HubSpot access token for a Wix connection. Automatically refreshes if the token is within 5 minutes of expiry. */
 export async function getValidHubSpotToken(wixConnectionId: string): Promise<string> {
   const connection = await prisma.hubSpotConnection.findUnique({
     where: { wixConnectionId },

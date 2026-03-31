@@ -65,19 +65,7 @@ async function logSync(
 
 // ─── Wix → HubSpot Sync ───
 
-/**
- * Syncs a Wix contact change to HubSpot.
- *
- * Flow:
- * 1. Dedupe check (was this contact recently synced FROM HubSpot?)
- * 2. Map fields (Wix nested → HubSpot flat)
- * 3. Hash check (has the data actually changed?)
- * 4. Conflict resolution (last-write-wins)
- * 5. Create or update in HubSpot
- * 6. Mark dedupe entry for the HubSpot side
- * 7. Update contact mapping
- * 8. Log the operation
- */
+/* Syncs a Wix contact change to HubSpot. Flow: dedupe check, map fields, hash check, conflict resolution, create/update in HubSpot, mark dedupe, update contact mapping, log the operation. */
 export async function syncWixToHubSpot(
   wixConnectionId: string,
   wixContact: WixContact,
@@ -246,13 +234,7 @@ export async function syncWixToHubSpot(
 
 // ─── HubSpot → Wix Sync ───
 
-/**
- * Syncs a HubSpot contact change to Wix.
- *
- * Same 8-step flow as above but reversed:
- * Fetches full HubSpot contact, maps to Wix format, handles conflict/dedupe,
- * creates or updates in Wix (with revision for optimistic concurrency).
- */
+/* Syncs a HubSpot contact change to Wix. Same 8-step flow as syncWixToHubSpot but reversed: fetches full HubSpot contact, maps to Wix format, handles conflict/dedupe, creates or updates in Wix (with revision for optimistic concurrency). */
 export async function syncHubSpotToWix(
   wixConnectionId: string,
   hubspotContactId: string,

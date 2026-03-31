@@ -3,10 +3,7 @@ import { logger } from "@/lib/logger";
 
 const WIX_OAUTH_BASE = "https://www.wixapis.com/oauth2";
 
-/**
- * Resolves a Wix instance token (passed as ?instance= in iframe URL)
- * into an instanceId by calling Wix's token-info endpoint.
- */
+/* Resolves a Wix instance token (passed as ?instance= in iframe URL) into an instanceId by calling Wix's token-info endpoint. */
 export async function resolveInstanceFromDashboard(instanceToken: string): Promise<{
   instanceId: string;
   siteId?: string;
@@ -43,11 +40,7 @@ export async function resolveInstanceFromDashboard(instanceToken: string): Promi
   };
 }
 
-/**
- * Exchanges a Wix instanceId for an access token using client credentials.
- * This is the "app identity" flow — the token is scoped to the app's
- * permissions on the specific Wix site identified by instanceId.
- */
+/* Exchanges a Wix instanceId for an access token using client credentials. This is the "app identity" flow -- the token is scoped to the app's permissions on the specific Wix site identified by instanceId. */
 export async function exchangeInstanceToken(instanceId: string): Promise<{
   accessToken: string;
 }> {
@@ -72,9 +65,7 @@ export async function exchangeInstanceToken(instanceId: string): Promise<{
   };
 }
 
-/**
- * Creates an axios instance configured for Wix REST API calls.
- */
+/* Creates an axios instance configured for Wix REST API calls. */
 export function createWixClient(accessToken: string) {
   return axios.create({
     baseURL: "https://www.wixapis.com",

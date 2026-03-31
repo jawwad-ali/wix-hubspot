@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-/**
- * GET /api/sync/logs?instanceId=xxx&page=1&limit=20
- * Returns paginated sync logs.
- */
+/* GET /api/sync/logs?instanceId=xxx&page=1&limit=20 -- Returns paginated sync logs. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");

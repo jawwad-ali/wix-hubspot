@@ -4,10 +4,7 @@ import { logger } from "@/lib/logger";
 
 const CONTACTS_BASE = "/contacts/v4/contacts";
 
-/**
- * Get a single Wix contact by ID.
- * Returns the full contact including the `revision` field needed for updates.
- */
+/* Get a single Wix contact by ID. Returns the full contact including the revision field needed for updates. */
 export async function getWixContact(
   client: AxiosInstance,
   contactId: string
@@ -16,10 +13,7 @@ export async function getWixContact(
   return response.data.contact;
 }
 
-/**
- * Create a new Wix contact.
- * Returns the created contact with its assigned ID.
- */
+/* Create a new Wix contact. Returns the created contact with its assigned ID. */
 export async function createWixContact(
   client: AxiosInstance,
   info: WixContactInfo
@@ -29,11 +23,7 @@ export async function createWixContact(
   return response.data.contact;
 }
 
-/**
- * Update a Wix contact.
- * IMPORTANT: Requires the current `revision` number for optimistic concurrency.
- * You must GET the contact first to obtain the current revision.
- */
+/* Update a Wix contact. Requires the current revision number for optimistic concurrency. You must GET the contact first to obtain the current revision. */
 export async function updateWixContact(
   client: AxiosInstance,
   contactId: string,
@@ -48,9 +38,7 @@ export async function updateWixContact(
   return response.data.contact;
 }
 
-/**
- * Query Wix contacts with optional filter and pagination.
- */
+/* Query Wix contacts with optional filter and pagination. */
 export async function queryWixContacts(
   client: AxiosInstance,
   filter?: Record<string, unknown>,
@@ -68,10 +56,7 @@ export async function queryWixContacts(
   };
 }
 
-/**
- * Find a Wix contact by email address.
- * Returns the first match or null.
- */
+/* Find a Wix contact by email address. Returns the first match or null. */
 export async function findWixContactByEmail(
   client: AxiosInstance,
   email: string
@@ -82,10 +67,7 @@ export async function findWixContactByEmail(
   return contacts.length > 0 ? contacts[0] : null;
 }
 
-/**
- * List all Wix contacts with pagination support.
- * Used for full sync operations.
- */
+/* List all Wix contacts with pagination support. Used for full sync operations. */
 export async function listAllWixContacts(
   client: AxiosInstance,
   batchSize: number = 100

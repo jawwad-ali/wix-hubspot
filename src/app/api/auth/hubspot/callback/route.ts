@@ -16,11 +16,7 @@ const DEFAULT_MAPPINGS = [
   { wixField: "info.addresses.0.country", hubspotProperty: "country", direction: "bidirectional" },
 ];
 
-/**
- * GET /api/auth/hubspot/callback?code=xxx&state=xxx
- * HubSpot redirects here after user authorizes.
- * Exchanges code for tokens, stores them encrypted, seeds default field mappings.
- */
+/* GET /api/auth/hubspot/callback?code=xxx&state=xxx -- HubSpot redirects here after user authorizes. Exchanges code for tokens, stores them encrypted, seeds default field mappings. */
 export async function GET(request: NextRequest) {
   try {
     const code = request.nextUrl.searchParams.get("code");

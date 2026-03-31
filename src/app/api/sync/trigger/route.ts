@@ -9,11 +9,7 @@ import { createHubSpotClient, listAllHubSpotContacts } from "@/lib/hubspot/conta
 import { syncWixToHubSpot, syncHubSpotToWix } from "@/lib/sync/engine";
 import { getMappedHubSpotProperties } from "@/lib/sync/mapper";
 
-/**
- * POST /api/sync/trigger
- * Triggers a manual full sync between Wix and HubSpot.
- * Body: { instanceId, direction: "wix_to_hubspot" | "hubspot_to_wix" | "both" }
- */
+/* POST /api/sync/trigger -- Triggers a manual full sync between Wix and HubSpot. Body: { instanceId, direction: wix_to_hubspot | hubspot_to_wix | both } */
 export async function POST(request: NextRequest) {
   try {
     const { instanceId, direction = "both" } = await request.json();

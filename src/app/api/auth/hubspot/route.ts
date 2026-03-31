@@ -3,11 +3,7 @@ import { prisma } from "@/lib/db";
 import { getHubSpotAuthUrl } from "@/lib/hubspot/auth";
 import { logger } from "@/lib/logger";
 
-/**
- * GET /api/auth/hubspot?instanceId=xxx
- * Initiates the HubSpot OAuth flow.
- * Returns the authorization URL that the frontend should redirect/open.
- */
+/* GET /api/auth/hubspot?instanceId=xxx -- Initiates the HubSpot OAuth flow. Returns the authorization URL that the frontend should redirect/open. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");

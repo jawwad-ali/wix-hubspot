@@ -5,17 +5,7 @@ import { verifyHubSpotWebhook } from "@/lib/hubspot/webhook-verify";
 import { syncHubSpotToWix } from "@/lib/sync/engine";
 import { HubSpotWebhookEvent } from "@/types";
 
-/**
- * POST /api/webhooks/hubspot
- *
- * Receives HubSpot webhook events.
- * Body is a JSON array of event objects.
- * Verified using HMAC-SHA256 v3 signature.
- *
- * Supported subscription types:
- * - contact.creation
- * - contact.propertyChange
- */
+/* POST /api/webhooks/hubspot -- Receives HubSpot webhook events. Body is a JSON array of event objects. Verified using HMAC-SHA256 v3 signature. Supports contact.creation and contact.propertyChange. */
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();

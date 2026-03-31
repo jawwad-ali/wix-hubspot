@@ -5,16 +5,7 @@ import { verifyWixWebhook } from "@/lib/wix/webhook-verify";
 import { syncWixToHubSpot } from "@/lib/sync/engine";
 import { WixContact } from "@/types";
 
-/**
- * POST /api/webhooks/wix
- *
- * Receives Wix contact webhooks. The body is a JWT string (NOT JSON).
- * Must read as text, verify the JWT, then parse the event data.
- *
- * Supported event types:
- * - wix.contacts.v4.contact_created
- * - wix.contacts.v4.contact_updated
- */
+/* POST /api/webhooks/wix -- Receives Wix contact webhooks. The body is a JWT string (NOT JSON). Must read as text, verify the JWT, then parse the event data. Supports contact_created and contact_updated events. */
 export async function POST(request: NextRequest) {
   try {
     // CRITICAL: Read body as text, not JSON. Wix sends a raw JWT string.

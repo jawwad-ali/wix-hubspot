@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { WixFieldOption } from "@/types";
 
-/**
- * GET /api/fields/wix
- * Returns the static list of known Wix contact fields with human-readable labels.
- * These are the dot-paths used in the field mapping system.
- */
+/* GET /api/fields/wix -- Returns the static list of known Wix contact fields with human-readable labels. These are the dot-paths used in the field mapping system. */
 
 const WIX_CONTACT_FIELDS: WixFieldOption[] = [
   // Name

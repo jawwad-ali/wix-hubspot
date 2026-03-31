@@ -3,18 +3,7 @@ import { logger } from "@/lib/logger";
 
 const MAX_TIMESTAMP_AGE_MS = 5 * 60 * 1000; // 5 minutes
 
-/**
- * Verifies a HubSpot webhook using v3 signature verification.
- *
- * Steps:
- * 1. Check timestamp is within 5 minutes (replay protection)
- * 2. Concatenate: "POST" + requestUrl + rawBody + timestamp
- * 3. HMAC-SHA256 with HUBSPOT_CLIENT_SECRET
- * 4. Base64-encode the digest
- * 5. Compare with X-HubSpot-Signature-v3 header
- *
- * If HUBSPOT_CLIENT_SECRET is not set, skip verification (development mode).
- */
+/* Verifies a HubSpot webhook using v3 signature verification. Checks timestamp for replay protection, computes HMAC-SHA256 with HUBSPOT_CLIENT_SECRET, and compares with X-HubSpot-Signature-v3 header. Skips verification if HUBSPOT_CLIENT_SECRET is not set. */
 export function verifyHubSpotWebhook(
   rawBody: string,
   signatureHeader: string | null,

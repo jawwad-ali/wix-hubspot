@@ -19,13 +19,7 @@ import {
 import { markAsSynced } from "@/lib/sync/loop-prevention";
 import { computeContactHash } from "@/lib/sync/hash";
 
-/**
- * POST /api/forms/submit
- *
- * Receives form submissions with contact data and UTM attribution.
- * Creates/updates the contact in HubSpot (and Wix if connected),
- * preserving UTM parameters for marketing attribution.
- */
+/* POST /api/forms/submit -- Receives form submissions with contact data and UTM attribution. Creates/updates the contact in HubSpot (and Wix if connected), preserving UTM parameters for marketing attribution. */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

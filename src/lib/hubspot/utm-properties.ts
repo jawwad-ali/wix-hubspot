@@ -11,10 +11,7 @@ const UTM_PROPERTY_NAMES = [
   "form_referrer",
 ];
 
-/**
- * Checks which UTM properties exist in HubSpot by fetching all properties once.
- * Returns the set of UTM property names that are available.
- */
+/* Checks which UTM properties exist in HubSpot by fetching all properties once. Returns the set of UTM property names that are available. */
 export async function ensureUtmProperties(client: Client): Promise<Set<string>> {
   const available = new Set<string>();
 

@@ -3,17 +3,12 @@ import { FilterOperatorEnum } from "@hubspot/api-client/lib/codegen/crm/contacts
 import { HubSpotContact, HubSpotContactProperties } from "@/types";
 import { logger } from "@/lib/logger";
 
-/**
- * Creates a HubSpot API client with the given access token.
- */
+/* Creates a HubSpot API client with the given access token. */
 export function createHubSpotClient(accessToken: string): Client {
   return new Client({ accessToken });
 }
 
-/**
- * Get a single HubSpot contact by ID.
- * Pass specific property names to include in the response.
- */
+/* Get a single HubSpot contact by ID. Pass specific property names to include in the response. */
 export async function getHubSpotContact(
   client: Client,
   contactId: string,
@@ -31,9 +26,7 @@ export async function getHubSpotContact(
   };
 }
 
-/**
- * Create a new HubSpot contact.
- */
+/* Create a new HubSpot contact. */
 export async function createHubSpotContact(
   client: Client,
   properties: HubSpotContactProperties
@@ -51,9 +44,7 @@ export async function createHubSpotContact(
   };
 }
 
-/**
- * Update a HubSpot contact by ID.
- */
+/* Update a HubSpot contact by ID. */
 export async function updateHubSpotContact(
   client: Client,
   contactId: string,
@@ -71,10 +62,7 @@ export async function updateHubSpotContact(
   };
 }
 
-/**
- * Search for a HubSpot contact by email.
- * Returns the first match or null.
- */
+/* Search for a HubSpot contact by email. Returns the first match or null. */
 export async function searchHubSpotContactByEmail(
   client: Client,
   email: string
@@ -108,10 +96,7 @@ export async function searchHubSpotContactByEmail(
   };
 }
 
-/**
- * List all HubSpot contacts.
- * Uses the SDK's built-in pagination handling.
- */
+/* List all HubSpot contacts. Uses the SDK's built-in pagination handling. */
 export async function listAllHubSpotContacts(
   client: Client,
   properties?: string[]

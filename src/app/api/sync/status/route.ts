@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-/**
- * GET /api/sync/status?instanceId=xxx
- * Returns sync statistics for the dashboard.
- */
+/* GET /api/sync/status?instanceId=xxx -- Returns sync statistics for the dashboard. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");

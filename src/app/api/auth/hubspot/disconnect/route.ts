@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { logger } from "@/lib/logger";
 
-/**
- * POST /api/auth/hubspot/disconnect
- * Disconnects the HubSpot account from a Wix instance.
- * Removes the HubSpotConnection record (tokens are deleted).
- */
+/* POST /api/auth/hubspot/disconnect -- Disconnects the HubSpot account from a Wix instance. Removes the HubSpotConnection record (tokens are deleted). */
 export async function POST(request: NextRequest) {
   try {
     const { instanceId } = await request.json();

@@ -4,11 +4,7 @@ import { encrypt } from "@/lib/encryption";
 import { logger } from "@/lib/logger";
 import { resolveInstanceFromDashboard, exchangeInstanceToken } from "@/lib/wix/auth";
 
-/**
- * POST /api/auth/wix
- * Called by the dashboard frontend when the iframe loads.
- * Exchanges the Wix instance token for an access token and stores the connection.
- */
+/** Called by the dashboard frontend when the iframe loads. */
 export async function POST(request: NextRequest) {
   try {
     const { instance } = await request.json();

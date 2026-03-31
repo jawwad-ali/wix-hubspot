@@ -7,15 +7,7 @@ interface WixWebhookPayload {
   data: string; // JSON string of the actual event data
 }
 
-/**
- * Verifies and decodes a Wix webhook.
- *
- * Wix webhooks arrive as a JWT string in the raw POST body (NOT JSON).
- * The JWT is signed with Wix's public key configured in the app dashboard.
- *
- * If WIX_PUBLIC_KEY is not set, we skip verification (development mode)
- * but still decode the payload.
- */
+/* Verifies and decodes a Wix webhook. Wix webhooks arrive as a JWT string in the raw POST body (NOT JSON). The JWT is signed with Wix's public key configured in the app dashboard. If WIX_PUBLIC_KEY is not set, we skip verification (development mode) but still decode the payload. */
 export function verifyWixWebhook(rawBody: string): WixWebhookPayload {
   const publicKey = process.env.WIX_PUBLIC_KEY;
 

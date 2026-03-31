@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-/**
- * GET /api/auth/hubspot-status?instanceId=xxx
- * Checks if HubSpot is connected for a given Wix instance.
- */
+/* GET /api/auth/hubspot-status?instanceId=xxx -- Checks if HubSpot is connected for a given Wix instance. */
 export async function GET(request: NextRequest) {
   try {
     const instanceId = request.nextUrl.searchParams.get("instanceId");

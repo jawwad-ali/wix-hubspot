@@ -1,11 +1,7 @@
 import { Client } from "@hubspot/api-client";
 import { HubSpotProperty } from "@/types";
 
-/**
- * Lists all contact properties from HubSpot.
- * Filters out read-only, hidden, and calculated properties that users shouldn't map to.
- * Also filters out internal HubSpot properties (hs_ prefix) unless they're commonly used.
- */
+/* Lists all contact properties from HubSpot. Filters out read-only, hidden, and calculated properties that users shouldn't map to. Also filters out internal HubSpot properties (hs_ prefix) unless commonly used. */
 export async function getContactProperties(
   client: Client
 ): Promise<HubSpotProperty[]> {

@@ -1,14 +1,6 @@
 import { ContactMapping } from "@prisma/client";
 
-/**
- * Resolves sync conflicts using "Last Write Wins" strategy.
- *
- * Rules applied in order:
- * 1. No existing mapping → proceed (new contact, no conflict)
- * 2. Hash matches → skip (data hasn't actually changed)
- * 3. Incoming timestamp is newer → proceed (last write wins)
- * 4. Incoming timestamp is older or equal → skip (stale event)
- */
+/* Resolves sync conflicts using Last Write Wins strategy. No existing mapping proceeds, matching hash skips, newer timestamp proceeds, older or equal timestamp skips. */
 export function resolveConflict(
   incomingTimestamp: Date,
   existingMapping: ContactMapping | null,
