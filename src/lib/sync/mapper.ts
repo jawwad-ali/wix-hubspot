@@ -140,19 +140,24 @@ export function mapHubSpotToWix(
       } else if (path === "name.last") {
         info.name = { ...info.name, last: transformed };
       } else if (path === "emails.0.email") {
-        info.emails = [{ email: transformed }];
+        info.emails = { items: [{ email: transformed }] } as unknown as WixContactInfo["emails"];
       } else if (path === "phones.0.phone") {
-        info.phones = [{ phone: transformed }];
+        info.phones = { items: [{ phone: transformed }] } as unknown as WixContactInfo["phones"];
       } else if (path === "addresses.0.street") {
-        info.addresses = [{ ...info.addresses?.[0], street: transformed }];
+        const existing = (info.addresses as unknown as { items: Record<string, string>[] })?.items?.[0] || {};
+        info.addresses = { items: [{ ...existing, address: { ...((existing as Record<string, unknown>).address as Record<string, string> || {}), addressLine: transformed } }] } as unknown as WixContactInfo["addresses"];
       } else if (path === "addresses.0.city") {
-        info.addresses = [{ ...info.addresses?.[0], city: transformed }];
-      } else if (path === "addresses.0.region") {
-        info.addresses = [{ ...info.addresses?.[0], region: transformed }];
+        const existing = (info.addresses as unknown as { items: Record<string, unknown>[] })?.items?.[0] || {};
+        info.addresses = { items: [{ ...existing, address: { ...((existing as Record<string, unknown>).address as Record<string, string> || {}), city: transformed } }] } as unknown as WixContactInfo["addresses"];
       } else if (path === "addresses.0.country") {
-        info.addresses = [{ ...info.addresses?.[0], country: transformed }];
+        const existing = (info.addresses as unknown as { items: Record<string, unknown>[] })?.items?.[0] || {};
+        info.addresses = { items: [{ ...existing, address: { ...((existing as Record<string, unknown>).address as Record<string, string> || {}), country: transformed } }] } as unknown as WixContactInfo["addresses"];
       } else if (path === "addresses.0.postalCode") {
-        info.addresses = [{ ...info.addresses?.[0], postalCode: transformed }];
+        const existing = (info.addresses as unknown as { items: Record<string, unknown>[] })?.items?.[0] || {};
+        info.addresses = { items: [{ ...existing, address: { ...((existing as Record<string, unknown>).address as Record<string, string> || {}), postalCode: transformed } }] } as unknown as WixContactInfo["addresses"];
+      } else if (path === "addresses.0.region") {
+        const existing = (info.addresses as unknown as { items: Record<string, unknown>[] })?.items?.[0] || {};
+        info.addresses = { items: [{ ...existing, address: { ...((existing as Record<string, unknown>).address as Record<string, string> || {}), subdivision: transformed } }] } as unknown as WixContactInfo["addresses"];
       } else if (path === "company") {
         info.company = transformed;
       } else if (path === "jobTitle") {
