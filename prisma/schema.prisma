@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model WixConnection {
+  id             String   @id @default(cuid())
+  instanceId     String   @unique
+  siteId         String?
+  accessToken    String // Encrypted
+  tokenExpiresAt DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  hubspotConnection HubSpotConnection?
+  contactMappings   ContactMapping[]
+  fieldMappings     FieldMapping[]
+  syncLogs          SyncLog[]
+  formSubmissions   FormSubmission[]
+}
+
+model HubSpotConnection {
+  id              String        @id @default(cuid())
+  wixConnectionId String        @unique
+  wixConnection   WixConnection @relation(fields: [wixConnectionId], references: [id], onDelete: Cascade)
+  portalId        String
+  accessToken     String // Encrypted
+  refreshToken    String // Encrypted
+  tokenExpiresAt  DateTime
+  scopes          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model ContactMapping {
+  id               String        @id @default(cuid())
+  wixConnectionId  String
+  wixConnection    WixConnection @relation(fields: [wixConnectionId], references: [id], onDelete: Cascade)
+  wixContactId     String
+  hubspotContactId String
+  lastSyncedAt     DateTime
+  lastSyncSource   String // "wix" | "hubspot"
+  lastSyncHash     String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@unique([wixConnectionId, wixContactId])
+  @@unique([wixConnectionId, hubspotContactId])
+  @@index([wixContactId])
+  @@index([hubspotContactId])
+}
+
+model FieldMapping {
+  id              String        @id @default(cuid())
+  wixConnectionId String
+  wixConnection   WixConnection @relation(fields: [wixConnectionId], references: [id], onDelete: Cascade)
+  wixField        String // Dot-path e.g. "info.name.first"
+  hubspotProperty String // Flat e.g. "firstname"
+  direction       String // "wix_to_hubspot" | "hubspot_to_wix" | "bidirectional"
+  transform       String? // "lowercase" | "uppercase" | "trim" | null
+  isActive        Boolean       @default(true)
+  sortOrder       Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@unique([wixConnectionId, wixField, hubspotProperty])
+}
+
+model SyncLog {
+  id               String        @id @default(cuid())
+  wixConnectionId  String
+  wixConnection    WixConnection @relation(fields: [wixConnectionId], references: [id], onDelete: Cascade)
+  direction        String // "wix_to_hubspot" | "hubspot_to_wix"
+  action           String // "create" | "update" | "skip" | "error"
+  wixContactId     String?
+  hubspotContactId String?
+  triggerSource    String // "webhook" | "manual" | "form"
+  details          String? // JSON string
+  errorMessage     String?
+  createdAt        DateTime      @default(now())
+
+  @@index([wixConnectionId, createdAt])
+}
+
+model SyncDedupeEntry {
+  id            String   @id @default(cuid())
+  contactKey    String // "wix:{id}" or "hubspot:{id}"
+  sourceSystem  String // "wix" | "hubspot"
+  operationHash String
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+
+  @@unique([contactKey, operationHash])
+  @@index([expiresAt])
+}
+
+model FormSubmission {
+  id               String        @id @default(cuid())
+  wixConnectionId  String
+  wixConnection    WixConnection @relation(fields: [wixConnectionId], references: [id], onDelete: Cascade)
+  email            String
+  firstName        String?
+  lastName         String?
+  phone            String?
+  company          String?
+  customFields     String? // JSON string
+  utmSource        String?
+  utmMedium        String?
+  utmCampaign      String?
+  utmTerm          String?
+  utmContent       String?
+  pageUrl          String?
+  referrer         String?
+  hubspotContactId String?
+  syncStatus       String        @default("pending") // "pending" | "synced" | "error"
+  syncError        String?
+  submittedAt      DateTime      @default(now())
+  syncedAt         DateTime?
+
+  @@index([wixConnectionId, syncStatus])
+  @@index([email])
+}
