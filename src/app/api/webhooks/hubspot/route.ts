@@ -32,9 +32,11 @@ export async function POST(request: NextRequest) {
     for (const event of events) {
       const portalId = event.portalId.toString();
 
-      // Find the connection by portal ID
+      // Find the most recent connection by portal ID (with a real Wix token, not "pending")
       const hubspotConnection = await prisma.hubSpotConnection.findFirst({
         where: { portalId },
+        include: { wixConnection: true },
+        orderBy: { createdAt: "desc" },
       });
 
       if (!hubspotConnection) {

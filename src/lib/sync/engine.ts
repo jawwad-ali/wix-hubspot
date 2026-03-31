@@ -320,6 +320,19 @@ export async function syncHubSpotToWix(
     const wixConnection = await prisma.wixConnection.findUniqueOrThrow({
       where: { id: wixConnectionId },
     });
+
+    // Skip Wix write if no real token (demo mode)
+    if (wixConnection.accessToken === "pending") {
+      const result: SyncResult = {
+        success: true,
+        action: "skip",
+        direction,
+        hubspotContactId,
+      };
+      await logSync(wixConnectionId, result, triggerSource, { reason: "wix_token_pending" });
+      return result;
+    }
+
     const wixToken = decrypt(wixConnection.accessToken);
     const wixClient = createWixClient(wixToken);
 
