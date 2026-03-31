@@ -30,8 +30,8 @@ export async function ensureUtmProperties(client: Client): Promise<Set<string>> 
         await client.crm.properties.coreApi.create("contacts", {
           name: prop.name,
           label: prop.label,
-          type: "string",
-          fieldType: "text",
+          type: "string" as never,
+          fieldType: "text" as never,
           groupName: prop.groupName,
         });
         available.add(prop.name);
