@@ -62,6 +62,18 @@ export async function POST(request: NextRequest) {
       include: { hubspotConnection: true },
     });
 
+    // If no HubSpot connection on this instance, try to find any connected instance
+    // This handles the case where form uses instanceId=demo but HubSpot is on the real Wix instance
+    if (!wixConnection?.hubspotConnection) {
+      const connectedInstance = await prisma.wixConnection.findFirst({
+        where: { hubspotConnection: { isNot: null } },
+        include: { hubspotConnection: true },
+      });
+      if (connectedInstance) {
+        wixConnection = connectedInstance;
+      }
+    }
+
     if (!wixConnection) {
       wixConnection = await prisma.wixConnection.create({
         data: { instanceId, accessToken: "pending", updatedAt: new Date() },
