@@ -132,7 +132,36 @@ export function mapHubSpotToWix(
     const value = hubspotProperties[mapping.hubspotProperty];
     if (value !== undefined && value !== null && value !== "") {
       const transformed = applyTransform(value, mapping.transform);
-      setValueInWixInfo(info, mapping.wixField, transformed);
+      const path = mapping.wixField.replace(/^info\./, "");
+
+      // Handle known Wix contact structures directly to avoid malformed objects
+      if (path === "name.first") {
+        info.name = { ...info.name, first: transformed };
+      } else if (path === "name.last") {
+        info.name = { ...info.name, last: transformed };
+      } else if (path === "emails.0.email") {
+        info.emails = [{ email: transformed }];
+      } else if (path === "phones.0.phone") {
+        info.phones = [{ phone: transformed }];
+      } else if (path === "addresses.0.street") {
+        info.addresses = [{ ...info.addresses?.[0], street: transformed }];
+      } else if (path === "addresses.0.city") {
+        info.addresses = [{ ...info.addresses?.[0], city: transformed }];
+      } else if (path === "addresses.0.region") {
+        info.addresses = [{ ...info.addresses?.[0], region: transformed }];
+      } else if (path === "addresses.0.country") {
+        info.addresses = [{ ...info.addresses?.[0], country: transformed }];
+      } else if (path === "addresses.0.postalCode") {
+        info.addresses = [{ ...info.addresses?.[0], postalCode: transformed }];
+      } else if (path === "company") {
+        info.company = transformed;
+      } else if (path === "jobTitle") {
+        info.jobTitle = transformed;
+      } else if (path === "birthdate") {
+        info.birthdate = transformed;
+      } else if (path === "locale") {
+        info.locale = transformed;
+      }
     }
   }
 
