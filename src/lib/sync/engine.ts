@@ -413,18 +413,22 @@ export async function syncHubSpotToWix(
     });
 
     return result;
-  } catch (error) {
+  } catch (error: unknown) {
+    const axiosError = error as { response?: { data?: unknown; status?: number } };
+    const errorDetail = axiosError?.response?.data
+      ? JSON.stringify(axiosError.response.data).slice(0, 500)
+      : (error instanceof Error ? error.message : "Unknown error");
     const result: SyncResult = {
       success: false,
       action: "error",
       direction,
       hubspotContactId,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: errorDetail,
     };
     await logSync(wixConnectionId, result, triggerSource);
     logger.error("Sync HubSpot → Wix failed", {
       hubspotContactId,
-      error: result.error,
+      error: errorDetail,
     });
     return result;
   }
